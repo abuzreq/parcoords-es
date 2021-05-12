@@ -47,10 +47,11 @@ const selected = (state, config, brushGroup) => () => {
           return extents[dimension][0] <= config.dimensions[p].yscale(d[p]) && config.dimensions[p].yscale(d[p]) <= extents[dimension][1];
       } else {
           if (extents[dimension][0] > extents[dimension][1])
-              return extents[dimension][1] <= d[p] && d[p] <= extents[dimension][0];
+          {return extents[dimension][1] <= d[p] && d[p] <= extents[dimension][0];}
           else
-              return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1];
-      },
+          { return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1];}
+      }
+    },
     string: (d, p, dimension) => {
       return (
         extents[dimension][0] <= config.dimensions[p].yscale(d[p]) &&
