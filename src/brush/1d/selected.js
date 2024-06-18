@@ -43,13 +43,17 @@ const selected = (state, config, brushGroup) => () => {
     },
     number: (d, p, dimension) => {
       if (typeof config.dimensions[p].yscale.bandwidth === 'function') {
-          // if it is ordinal
-          return extents[dimension][0] <= config.dimensions[p].yscale(d[p]) && config.dimensions[p].yscale(d[p]) <= extents[dimension][1];
+        // if it is ordinal
+        return (
+          extents[dimension][0] <= config.dimensions[p].yscale(d[p]) &&
+          config.dimensions[p].yscale(d[p]) <= extents[dimension][1]
+        );
       } else {
-          if (extents[dimension][0] > extents[dimension][1])
-          {return extents[dimension][1] <= d[p] && d[p] <= extents[dimension][0];}
-          else
-          { return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1];}
+        if (extents[dimension][0] > extents[dimension][1]) {
+          return extents[dimension][1] <= d[p] && d[p] <= extents[dimension][0];
+        } else {
+          return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1];
+        }
       }
     },
     string: (d, p, dimension) => {

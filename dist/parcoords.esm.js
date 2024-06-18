@@ -249,7 +249,11 @@ var selected = function selected(state, config, brushGroup) {
           // if it is ordinal
           return extents[dimension][0] <= config.dimensions[p].yscale(d[p]) && config.dimensions[p].yscale(d[p]) <= extents[dimension][1];
         } else {
-          return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1];
+          if (extents[dimension][0] > extents[dimension][1]) {
+            return extents[dimension][1] <= d[p] && d[p] <= extents[dimension][0];
+          } else {
+            return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1];
+          }
         }
       },
       string: function string(d, p, dimension) {
@@ -1922,7 +1926,8 @@ var flipAxisAndUpdatePCP = function flipAxisAndUpdatePCP(config, pc, axis) {
     // select(this.parentElement)
     pc.selection.select('svg').selectAll('g.axis').filter(function (d) {
       return d === dimension;
-    }).transition().duration(config.animationTime).call(axis.scale(config.dimensions[dimension].yscale));
+    }).transition().duration(config.animationTime).call(pc.applyAxisConfig(axis, config.dimensions[dimension])); //changed according to https://github.com/syntagmatic/parallel-coordinates/issues/327
+    // old version: .call(axis.scale(config.dimensions[dimension].yscale)); 
     pc.render();
   };
 };
@@ -2128,37 +2133,11 @@ var brushable = function brushable(config, pc, flags) {
       if (config.dimensions[d] !== undefined) {
         config.dimensions[d]['brush'] = brushY(select(this)).extent([[-15, 0], [15, config.dimensions[d].yscale.range()[0]]]);
         select(this).call(config.dimensions[d]['brush'].on('start', function () {
-          if (event.sourceEvent !== null && !event.sourceEvent.ctrlKey) {
-            pc.brushReset();
-          }
+          pc.brushReset();
         }).on('brush', function () {
-          if (!event.sourceEvent.ctrlKey) {
-            pc.brush();
-          }
+          pc.brush();
         }).on('end', function () {
-          // save brush selection is ctrl key is held
-          // store important brush information and
-          // the html element of the selection,
-          // to make a dummy selection element
-          if (event.sourceEvent.ctrlKey) {
-            var html = select(this).select('.selection').nodes()[0].outerHTML;
-            html = html.replace('class="selection"', 'class="selection dummy' + ' selection-' + config.brushes.length + '"');
-            var dat = select(this).nodes()[0].__data__;
-            var brush = {
-              id: config.brushes.length,
-              extent: brushSelection(this),
-              html: html,
-              data: dat
-            };
-            config.brushes.push(brush);
-            select(select(this).nodes()[0].parentNode).select('.axis').nodes()[0].outerHTML += html;
-            pc.brush();
-            config.dimensions[d].brush.move(select(this, null));
-            select(this).select('.selection').attr('style', 'display:none');
-            pc.brushable();
-          } else {
-            pc.brush();
-          }
+          pc.brush();
         }));
         select(this).on('dblclick', function () {
           pc.brushReset(d);

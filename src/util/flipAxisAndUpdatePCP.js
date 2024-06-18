@@ -13,7 +13,7 @@ const flipAxisAndUpdatePCP = (config, pc, axis) =>
       .transition()
       .duration(config.animationTime)
       .call(pc.applyAxisConfig(axis, config.dimensions[dimension])); //changed according to https://github.com/syntagmatic/parallel-coordinates/issues/327
-    // old version: .call(axis.scale(config.dimensions[dimension].yscale)); 
+    // old version: .call(axis.scale(config.dimensions[dimension].yscale));
     pc.render();
   };
 
