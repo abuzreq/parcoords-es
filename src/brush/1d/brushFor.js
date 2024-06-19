@@ -82,7 +82,7 @@ const brushFor = (state, config, pc, events, brushGroup) => (
         config.brushed,
         convertBrushArguments(arguments)
       );
-    });
+    }).filter(x => {return !event.button});
 
   state.brushes[axis] = _brush;
   state.brushNodes[axis] = _selector.node();
