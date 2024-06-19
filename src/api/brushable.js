@@ -28,7 +28,7 @@ const brushable = (config, pc, flags) =>
               })
               .on('end', function() {
                 pc.brush();
-              })
+              }).filter(x => {return !d3.event.button})
           );
           select(this).on('dblclick', function() {
             pc.brushReset(d);
