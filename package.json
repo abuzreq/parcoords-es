@@ -1,7 +1,7 @@
 {
   "name": "parcoord-es",
   "version": "2.2.10",
-  "description": "ES6 module of Parallel Coordinates, based on d3 v5 modules",
+  "description": "Fork of ES6 module of Parallel Coordinates, based on d3 v5 modules",
   "main": "dist/parcoords.js",
   "module": "dist/parcoords.esm.js",
   "jsnext:main": "dist/parcoords.esm.js",
@@ -63,7 +63,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/BigFatDog/parcoords-es.git"
+    "url": "https://github.com/abuzreq/parcoords-es.git"
   },
   "keywords": [
     "es6",
@@ -78,6 +78,6 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "hhttps://github.com/BigFatDog/parcoords-es/issues"
+    "url": "https://github.com/abuzreq/parcoords-es/issues"
   }
 }
